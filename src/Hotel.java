@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Hotel {
     // 방 리스트
@@ -33,9 +34,25 @@ public class Hotel {
     // 고객 정보를 입력 받아서 있으면 그냥 진행하고, 없으면 고객 리스트에 추가하기
     // 그 다음에 소지금 판단하기
     // 인서님
-    public Customer inputCustomer() {
-        Customer customer = null;
+    public Customer inputCustomer(Room room) {
+        Scanner sc = new Scanner(System.in);
+        String Name = sc.nextLine();
+        String Phone = sc.nextLine();
+        Double Cash = sc.nextDouble();
+        Customer customer = new Customer(Name, Phone, Cash);
+        if (!customerList.contains(customer)) customerList.add(customer);
 
+        if (customer.getCash() >= room.getRoomCharge()) {
+            customer.setCash(customer.getCash() - room.getRoomCharge());
+            System.out.println("예약을 진행합니다.");
+        } else {
+            System.out.println("소지금이 부족합니다. 방을 예약할 수 없습니다.");
+            customer = null;
+        }
+
+        // return type을 Customer로 설정했기 때문에 customer를 return하는 것으로 고정하되,
+        // 예약 불가능할 경우 customer = null로 코드를 작성했습니다.ㅐ
+        // 즉 다음 메서드인 reservationComplete()에서 (Memo 때 했던 것처럼)customer!=null로 확인 후 메서드 실행 여부를 결정해야 합니다.
         return customer;
     }
 
